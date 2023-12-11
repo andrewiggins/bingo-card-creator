@@ -4,6 +4,7 @@
 		"checkJs": true,
 		"moduleResolution": "node",
 		"jsx": "react-jsx",
-		"jsxImportSource": "preact"
+		"jsxImportSource": "preact",
+		"strict": true
 	}
 }

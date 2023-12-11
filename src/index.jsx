@@ -1,4 +1,19 @@
 import { render } from "preact";
-import "./index.css";
+import { Settings } from "./Settings.jsx";
+import { settings } from "./model.js";
 
-render(<div>Hello World</div>, document.getElementById("root"));
+import "./index.css";
+import { Board } from "./Board.jsx";
+
+function App() {
+	return (
+		<div>
+			<h1>Bingo Card Generator</h1>
+			<Settings settings={settings} />
+			<Board {...settings} />
+		</div>
+	);
+}
+
+const container = /** @type {HTMLElement} */ (document.getElementById("root"));
+render(<App />, container);
