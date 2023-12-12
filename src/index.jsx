@@ -7,11 +7,17 @@ import { Board } from "./Board.jsx";
 
 function App() {
 	return (
-		<div>
-			<h1>Bingo Card Generator</h1>
-			<Settings settings={settings} />
-			<Board {...settings} />
-		</div>
+		<>
+			<div class="setup">
+				<h1>Bingo Card Generator</h1>
+				<Settings settings={settings} />
+				<Board settings={settings} />
+			</div>
+			<div class="boards">
+				<Board settings={settings} />
+				<Board settings={settings} />
+			</div>
+		</>
 	);
 }
 

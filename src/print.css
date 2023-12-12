@@ -1,0 +1,16 @@
+@page {
+	/* size: 8.5in 11in; */
+	margin: 0.2in;
+}
+
+/* h1 {
+	margin-top: 0;
+} */
+
+.setup {
+	display: none;
+}
+
+.board {
+	page-break-inside: avoid;
+}

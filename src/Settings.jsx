@@ -6,22 +6,25 @@ const gridChoices = new Set(["5x5"]);
 /** @param {{ settings: SettingsSignals }} props */
 export function Settings({ settings }) {
 	return (
-		<div>
+		<div class="settings-form">
 			<h2>Bingo Card Settings</h2>
-			<TextField name="title" label="Title" signal={settings.title} />
-			<EntriesField name="entries" label="Entries" signal={settings.entries} />
+			<TextField name="title" label="Title" signal={settings.$title} />
+			<EntriesField name="entries" label="Entries" signal={settings.$entries} />
 			<Choice name="grid" label="Grid" choices={gridChoices} />
 		</div>
 	);
 }
 
-/** @param {{ name: string; label: string; signal: Signal<string>; }} props */
+/** @param {{ name: string; label: string; signal: Signal<string> | undefined; }} props */
 function TextField({ name, label, signal }) {
 	const id = useId();
 
 	/** @type {preact.JSX.InputEventHandler<HTMLInputElement>} */
 	const onInput = useCallback(
-		(e) => (signal.value = e.currentTarget.value),
+		(e) => {
+			if (!signal) return;
+			signal.value = e.currentTarget.value;
+		},
 		[signal],
 	);
 
@@ -33,19 +36,20 @@ function TextField({ name, label, signal }) {
 	);
 }
 
-/** @param {{ name: string; label: string; signal: Signal<string[]>; }} props */
+/** @param {{ name: string; label: string; signal: Signal<string[]> | undefined; }} props */
 function EntriesField({ name, label, signal }) {
 	const id = useId();
 
 	/** @type {preact.JSX.InputEventHandler<HTMLTextAreaElement>} */
 	const onInput = useCallback(
 		(e) => {
+			if (!signal) return;
 			signal.value = e.currentTarget.value.split("\n").map((s) => s.trim());
 		},
 		[signal],
 	);
 
-	const value = signal.value.join("\n");
+	const value = signal?.value.join("\n") ?? "";
 
 	return (
 		<div>

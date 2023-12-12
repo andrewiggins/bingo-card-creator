@@ -1,4 +1,5 @@
 import { Signal as PreactSignal } from "@preact/signals";
+import { DeepSignal } from "deepsignal";
 
 declare global {
 	type Signal<T = any> = PreactSignal<T>;
@@ -10,12 +11,8 @@ declare global {
 		freeSpace: null | {
 			entry: string;
 		};
-		textAlignment: "top" | "center" | "bottom";
+		humanBingo: boolean;
 	}
 
-	type Signalize<T extends object> = {
-		[P in keyof T]: Signal<T[P]>;
-	};
-
-	type SettingsSignals = Signalize<Settings>;
+	type SettingsSignals = DeepSignal<Settings>;
 }

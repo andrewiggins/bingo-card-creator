@@ -1,3 +1,9 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
 body {
 	text-align: center;
 }
@@ -5,4 +11,36 @@ body {
 .grid-wrapper {
 	display: flex;
 	justify-content: center;
+}
+
+.grid {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.cell-text {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	/* -webkit-line-clamp: 3; */
+	overflow: hidden;
+}
+
+.board {
+	width: calc(50% - 8px);
+	font-size: 16px;
+	/* border: 30px solid; */
+	/* border-image-source: url(./assets/christmas-frame-card.jpg);
+	border-image-slice: 30; */
+}
+
+.board .cell {
+	border: 3px solid black;
+	padding: 4px;
+}
+
+.boards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }

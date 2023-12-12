@@ -1,10 +1,14 @@
 import { signal } from "@preact/signals";
+import { deepSignal } from "deepsignal";
+import entries from "./entries.json";
 
 /** @type {SettingsSignals} */
-export const settings = {
-	title: signal("Bingo Card Title"),
-	entries: signal([]),
-	grid: signal("5x5"),
-	freeSpace: signal(null),
-	textAlignment: signal("center"),
-};
+export const settings = deepSignal({
+	title: "SeattleJS Holiday Party 2023",
+	entries: entries,
+	grid: "5x5",
+	freeSpace: {
+		entry: "FREE SPACE",
+	},
+	humanBingo: true,
+});
