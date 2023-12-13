@@ -7,26 +7,27 @@ import { useCallback, useMemo, useState } from "preact/hooks";
 import { Boards } from "./Boards.jsx";
 import { PreviewBoards } from "./PreviewBoards";
 
-function App() {
-	const [id, updateId] = useState(0);
-	const forceUpdate = useCallback(() => updateId((id) => id + 1), []);
+const initialCommittedSettings = unsignalSettings(settings);
 
-	/** @type {Settings} */
-	const rawSettings = useMemo(
-		() => untracked(() => unsignalSettings(settings)),
-		[id],
+function App() {
+	const [committedSettings, setCommittedSettings] = useState(
+		initialCommittedSettings,
 	);
+
+	const onGenerate = useCallback(() => {
+		setCommittedSettings(unsignalSettings(settings));
+	}, []);
 
 	return (
 		<>
 			<div class="setup">
 				<h1>Bingo Card Generator</h1>
 				<h2>Settings</h2>
-				<Settings settings={settings} onGenerate={forceUpdate} />
+				<Settings settings={settings} onGenerate={onGenerate} />
 				<PreviewBoards />
 			</div>
 			<h2>Boards</h2>
-			<Boards settings={rawSettings} />
+			<Boards settings={committedSettings} />
 		</>
 	);
 }
