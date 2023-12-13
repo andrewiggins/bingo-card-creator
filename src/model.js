@@ -25,8 +25,10 @@ function getGridSize(grid) {
 	throw new Error(`Unknown grid: ${grid}`);
 }
 
-/** @type {(settings: Settings) => Board} */
-function generateBoard(settings) {
+const defaultRng = () => Math.random();
+
+/** @type {(settings: Settings, rng?: () => number) => Board} */
+function generateBoard(settings, rng = defaultRng) {
 	const boardHash = MurmurHash3();
 
 	/** @type {Set<number>} */
@@ -45,7 +47,7 @@ function generateBoard(settings) {
 
 		let index;
 		do {
-			index = Math.floor(Math.random() * settings.entries.length);
+			index = Math.floor(rng() * settings.entries.length);
 		} while (usedIndices.has(index));
 
 		const entry = settings.entries[index];
@@ -58,8 +60,8 @@ function generateBoard(settings) {
 	return { hash: boardHash.result().toString(16), entries, freeSpaceIndex };
 }
 
-/** @type {(settings: Settings) => Boards} */
-export function generateBoards(settings) {
+/** @type {(settings: Settings, rng?: () => number) => Boards} */
+export function generateBoards(settings, rng) {
 	/** @type {Record<string, number>} */
 	const duplicates = {};
 	/** @type {Set<string>} */
@@ -68,7 +70,7 @@ export function generateBoards(settings) {
 	const boards = [];
 
 	for (let i = 0; i < settings.count; i++) {
-		const board = generateBoard(settings);
+		const board = generateBoard(settings, rng);
 		boards.push(board);
 
 		const id = board.hash;
