@@ -3,14 +3,21 @@ import { useCallback, useId } from "preact/hooks";
 /** @type {Set<Settings["grid"]>} */
 const gridChoices = new Set(["5x5"]);
 
-/** @param {{ settings: SettingsSignals }} props */
-export function Settings({ settings }) {
+/** @param {{ settings: SettingsSignals; onGenerate(): void }} props */
+export function Settings({ settings, onGenerate }) {
 	return (
 		<div class="settings-form">
-			<h2>Bingo Card Settings</h2>
 			<TextField name="title" label="Title" signal={settings.$title} />
-			<EntriesField name="entries" label="Entries" signal={settings.$entries} />
 			<Choice name="grid" label="Grid" choices={gridChoices} />
+			<NumberField
+				name="count"
+				label="Number of boards"
+				signal={settings.$count}
+			/>
+			<EntriesField name="entries" label="Entries" signal={settings.$entries} />
+			<div>
+				<button onClick={onGenerate}>Generate</button>
+			</div>
 		</div>
 	);
 }
@@ -32,6 +39,33 @@ function TextField({ name, label, signal }) {
 		<div>
 			<label for={id}>{label}</label>
 			<input type="text" id={id} name={name} value={signal} onInput={onInput} />
+		</div>
+	);
+}
+
+/** @param {{ name: string; label: string; signal: Signal<number> | undefined; }} props */
+function NumberField({ name, label, signal }) {
+	const id = useId();
+
+	/** @type {preact.JSX.InputEventHandler<HTMLInputElement>} */
+	const onInput = useCallback(
+		(e) => {
+			if (!signal) return;
+			signal.value = e.currentTarget.valueAsNumber;
+		},
+		[signal],
+	);
+
+	return (
+		<div>
+			<label for={id}>{label}</label>
+			<input
+				type="number"
+				id={id}
+				name={name}
+				value={signal}
+				onInput={onInput}
+			/>
 		</div>
 	);
 }

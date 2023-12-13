@@ -1,6 +1,6 @@
 @page {
-	/* size: 8.5in 11in; */
-	margin: 0.2in;
+	size: 11in 8.5in;
+	margin: var(--print-margin);
 }
 
 /* h1 {

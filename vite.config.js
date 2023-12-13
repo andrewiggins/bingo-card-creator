@@ -4,5 +4,8 @@ import preact from "@preact/preset-vite";
 // https://vitejs.dev/config/
 export default defineConfig({
 	base: "/preact-starter/",
-	plugins: [preact()],
+	plugins: [preact({ prefreshEnabled: false })],
+	server: {
+		hmr: false,
+	},
 });

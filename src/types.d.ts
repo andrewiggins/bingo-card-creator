@@ -12,6 +12,7 @@ declare global {
 			entry: string;
 		};
 		humanBingo: boolean;
+		count: number;
 	}
 
 	type SettingsSignals = DeepSignal<Settings>;

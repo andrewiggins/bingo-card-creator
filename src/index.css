@@ -1,3 +1,7 @@
+:root {
+	--print-margin: 0.2in;
+}
+
 *,
 *:after,
 *:before {
@@ -29,6 +33,7 @@ body {
 .board {
 	width: calc(50% - 8px);
 	font-size: 16px;
+	content-visibility: auto;
 	/* border: 30px solid; */
 	/* border-image-source: url(./assets/christmas-frame-card.jpg);
 	border-image-slice: 30; */
@@ -43,4 +48,5 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
+	width: calc(11in - var(--print-margin));
 }

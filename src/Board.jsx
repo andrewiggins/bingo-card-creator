@@ -1,4 +1,7 @@
-/** @param {{ settings: SettingsSignals }} props */
+import { useLayoutEffect, useRef } from "preact/hooks";
+import { useResizeText } from "./useResizeText";
+
+/** @param {{ settings: Settings }} props */
 export function Board({ settings }) {
 	let gridComponent;
 	if (settings.grid === "5x5") {
@@ -17,7 +20,7 @@ export function Board({ settings }) {
 	);
 }
 
-/** @type {(props: {settings: SettingsSignals}) => any} */
+/** @type {(props: { settings: Settings }) => any} */
 function TwentyFiveGrid({ settings }) {
 	const rows = [0, 1, 2, 3, 4];
 	const cols = [0, 1, 2, 3, 4];
@@ -45,19 +48,19 @@ function TwentyFiveGrid({ settings }) {
 	);
 }
 
-/** @param {{ settings: SettingsSignals; max: number; index: number; }} props */
+/** @param {{ settings: Settings; max: number; index: number; }} props */
 function Cell({ settings, index, max }) {
-	if (settings.freeSpace && index === Math.floor(max / 2)) {
-		return (
-			<td key={index} class="cell free-space">
-				<span class="cell-text">{settings.freeSpace.entry}</span>
-			</td>
-		);
-	}
+	const isFreeSpace = settings.freeSpace && index === Math.floor(max / 2);
+	const entry =
+		(isFreeSpace ? settings.freeSpace?.entry : settings.entries[index]) ?? "";
+
+	const [ref, fontSize] = useResizeText(entry, 3);
 
 	return (
-		<td key={index} class="cell">
-			<span class="cell-text">{settings.entries[index] ?? ""}</span>
+		<td key={index} class={`cell ${isFreeSpace ? "free-space" : ""}`}>
+			<span class="cell-text" style={{ fontSize }} ref={ref}>
+				{entry}
+			</span>
 			{settings.humanBingo && (
 				<>
 					<br />
@@ -68,7 +71,7 @@ function Cell({ settings, index, max }) {
 	);
 }
 
-/** @type {(props: {settings: SettingsSignals}) => any} */
+/** @type {(props: { settings: Settings }) => any} */
 export function ThirtySixGrid() {
 	throw new Error("Not implemented");
 }

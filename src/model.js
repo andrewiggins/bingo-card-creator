@@ -11,4 +11,11 @@ export const settings = deepSignal({
 		entry: "FREE SPACE",
 	},
 	humanBingo: true,
+	count: 100,
 });
+
+/** @type {(grid: Settings["grid"]) => number} */
+export function gridSize(grid) {
+	if (grid === "5x5") return 25;
+	throw new Error(`Unknown grid: ${grid}`);
+}
