@@ -4,7 +4,7 @@ import { memo } from "./memo.js";
 import { generateBoards } from "./model.js";
 
 /** @type {import('preact').FunctionComponent<{ settings: Settings, rng?: () => number }>} */
-export const Boards = memo(({ settings, rng }) => {
+export const Boards = memo(function Boards({ settings, rng }) {
 	/** @type {Boards} */
 	const boardData = useMemo(
 		() => generateBoards(settings, rng),

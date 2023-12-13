@@ -1,6 +1,4 @@
-import { useLayoutEffect, useRef } from "preact/hooks";
 import { useResizeText } from "./useResizeText";
-import { memo } from "./memo";
 
 /** @param {{ settings: Settings; board: Board; }} props */
 export function Board({ settings, board }) {
