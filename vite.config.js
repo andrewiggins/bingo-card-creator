@@ -3,7 +3,7 @@ import preact from "@preact/preset-vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	base: "/preact-starter/",
+	base: "/bingo-card-creator/",
 	plugins: [preact({ prefreshEnabled: false })],
 	server: {
 		hmr: false,
