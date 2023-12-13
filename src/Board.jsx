@@ -1,4 +1,4 @@
-import { createMulberry32 } from "./mulberry32";
+import { createSplitMix32 } from "./rng";
 import { useResizeText } from "./useResizeText";
 
 const emojis = [
@@ -42,7 +42,7 @@ export function Board({ settings, board }) {
 		throw new Error(`Unknown grid type: ${settings.grid}`);
 	}
 
-	const rng = createMulberry32(parseInt(board.hash, 16));
+	const rng = createSplitMix32(parseInt(board.hash, 16));
 	const randomEmoji = () => emojis[Math.floor(rng.next() * emojis.length)];
 
 	return (

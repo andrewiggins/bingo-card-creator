@@ -1,7 +1,7 @@
 import { useComputed } from "@preact/signals";
 import { useState } from "preact/hooks";
 import { settings, unsignalSettings } from "./model";
-import { createMulberry32 } from "./mulberry32";
+import { createSplitMix32 } from "./rng";
 import { Boards } from "./Boards";
 
 const newSeed = () => Math.random() * 2 ** 32;
@@ -17,8 +17,8 @@ export function PreviewBoards() {
 	// Recreate a new RNG each render with the same seed so we purposefully get the
 	// same boards on each rerender. Only reseed the RNG when the user clicks the
 	// "New preview boards" button.
-	const mulberry32 = createMulberry32(seed);
-	const rng = () => mulberry32.next();
+	const rng = createSplitMix32(seed);
+	const next = () => rng.next();
 
 	return (
 		<>
@@ -28,7 +28,7 @@ export function PreviewBoards() {
 					New preview boards
 				</button>
 			</p>
-			<Boards settings={previewSettings.value} rng={rng} />
+			<Boards settings={previewSettings.value} rng={next} />
 		</>
 	);
 }
