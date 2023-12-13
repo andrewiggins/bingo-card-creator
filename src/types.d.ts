@@ -6,6 +6,7 @@ declare global {
 
 	interface Settings {
 		title: string;
+		description: string;
 		entries: string[];
 		grid: "5x5" | "36-bingo";
 		freeSpace: null | {

@@ -18,6 +18,7 @@ export function Board({ settings, board }) {
 	return (
 		<div class="board">
 			<h2 class="board-title">{settings.title}</h2>
+			<p class="board-desc">{settings.description}</p>
 			<div class="grid-wrapper">{gridComponent}</div>
 			<div class="board-footer">
 				<sub class="board-hash">ID: {board.hash}</sub>

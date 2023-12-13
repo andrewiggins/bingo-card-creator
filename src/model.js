@@ -5,6 +5,8 @@ import entries from "./entries.json";
 /** @type {SettingsSignals} */
 export const settings = deepSignal({
 	title: "SeattleJS Holiday Party 2023",
+	description:
+		"Find someone who matches each description. Write their name in the box (or otherwise mark the box).",
 	entries: entries,
 	grid: "5x5",
 	freeSpace: {
