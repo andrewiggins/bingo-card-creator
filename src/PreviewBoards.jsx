@@ -23,9 +23,11 @@ export function PreviewBoards() {
 	return (
 		<>
 			<h2>Preview</h2>
-			<button type="button" onClick={() => setSeed(newSeed())}>
-				New preview boards
-			</button>
+			<p>
+				<button type="button" onClick={() => setSeed(newSeed())}>
+					New preview boards
+				</button>
+			</p>
 			<Boards settings={previewSettings.value} rng={rng} />
 		</>
 	);

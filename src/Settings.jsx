@@ -88,7 +88,15 @@ function EntriesField({ name, label, signal }) {
 	return (
 		<div>
 			<label for={id}>{label}</label>
-			<textarea id={id} name={name} value={value} onInput={onInput}></textarea>
+			<textarea
+				id={id}
+				name={name}
+				value={value}
+				onInput={onInput}
+				rows={10}
+				cols={40}
+				wrap="off"
+			></textarea>
 		</div>
 	);
 }
