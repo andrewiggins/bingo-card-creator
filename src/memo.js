@@ -12,7 +12,7 @@ function shallowDiffers(a, b) {
  * changed. This was previously known as `React.pure`.
  * @template T
  * @param {import('preact').FunctionComponent<T>} c functional component
- * @param {(prev: object, next: object) => boolean} [comparer] Custom equality function
+ * @param {(prev: T, next: T) => boolean} [comparer] Custom equality function
  * @returns {import('preact').FunctionComponent<T>}
  */
 export function memo(c, comparer) {

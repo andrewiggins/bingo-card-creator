@@ -50,3 +50,7 @@ body {
 	gap: 8px;
 	width: calc(11in - var(--print-margin));
 }
+
+.board-footer {
+	text-align: right;
+}

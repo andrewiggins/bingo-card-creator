@@ -1,46 +1,55 @@
 import { useLayoutEffect, useRef } from "preact/hooks";
 import { useResizeText } from "./useResizeText";
+import { memo } from "./memo";
 
-/** @param {{ settings: Settings }} props */
-export function Board({ settings }) {
+/** @param {{ settings: Settings; board: Board; }} props */
+export function Board({ settings, board }) {
 	let gridComponent;
 	if (settings.grid === "5x5") {
-		gridComponent = <TwentyFiveGrid settings={settings} />;
+		gridComponent = (
+			<TwentyFiveGrid board={board} isHumanBingo={settings.humanBingo} />
+		);
 	} else if (settings.grid === "36-bingo") {
-		gridComponent = <ThirtySixGrid settings={settings} />;
+		gridComponent = (
+			<ThirtySixGrid board={board} isHumanBingo={settings.humanBingo} />
+		);
 	} else {
 		throw new Error(`Unknown grid type: ${settings.grid}`);
 	}
 
 	return (
 		<div class="board">
-			<h2 class="title">{settings.title}</h2>
+			<h2 class="board-title">{settings.title}</h2>
 			<div class="grid-wrapper">{gridComponent}</div>
+			<div class="board-footer">
+				<sub class="board-hash">ID: {board.hash}</sub>
+			</div>
 		</div>
 	);
 }
 
-/** @type {(props: { settings: Settings }) => any} */
-function TwentyFiveGrid({ settings }) {
+/** @type {(props: { board: Board, isHumanBingo: boolean }) => any} */
+function TwentyFiveGrid({ board, isHumanBingo }) {
 	const rows = [0, 1, 2, 3, 4];
 	const cols = [0, 1, 2, 3, 4];
 
 	return (
-		<table
-			class={`grid twenty-five-grid ${
-				settings.humanBingo ? "human-bingo" : ""
-			}`}
-		>
+		<table class={`grid twenty-five-grid ${isHumanBingo ? "human-bingo" : ""}`}>
 			<tbody>
 				{rows.map((row) => (
 					<tr key={row} class="row">
-						{cols.map((col) => (
-							<Cell
-								settings={settings}
-								max={25}
-								index={row * rows.length + col}
-							/>
-						))}
+						{cols.map((col) => {
+							const index = row * rows.length + col;
+							const entry = board.entries[index];
+							return (
+								<Cell
+									key={entry}
+									entry={entry}
+									isFreeSpace={index === board.freeSpaceIndex}
+									isHumanBingo={isHumanBingo}
+								/>
+							);
+						})}
 					</tr>
 				))}
 			</tbody>
@@ -48,20 +57,16 @@ function TwentyFiveGrid({ settings }) {
 	);
 }
 
-/** @param {{ settings: Settings; max: number; index: number; }} props */
-function Cell({ settings, index, max }) {
-	const isFreeSpace = settings.freeSpace && index === Math.floor(max / 2);
-	const entry =
-		(isFreeSpace ? settings.freeSpace?.entry : settings.entries[index]) ?? "";
-
+/** @param {{ entry: string; isFreeSpace: boolean; isHumanBingo: boolean }} props */
+function Cell({ entry, isFreeSpace, isHumanBingo }) {
 	const [ref, fontSize] = useResizeText(entry, 3);
 
 	return (
-		<td key={index} class={`cell ${isFreeSpace ? "free-space" : ""}`}>
+		<td class={`cell ${isFreeSpace ? "free-space" : ""}`}>
 			<span class="cell-text" style={{ fontSize }} ref={ref}>
 				{entry}
 			</span>
-			{settings.humanBingo && (
+			{isHumanBingo && (
 				<>
 					<br />
 					<br />
@@ -71,7 +76,7 @@ function Cell({ settings, index, max }) {
 	);
 }
 
-/** @type {(props: { settings: Settings }) => any} */
+/** @type {(props: { board: Board, isHumanBingo: boolean }) => any} */
 export function ThirtySixGrid() {
 	throw new Error("Not implemented");
 }

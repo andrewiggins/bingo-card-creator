@@ -21,14 +21,14 @@ export function useResizeText(text, maxLines) {
 		let cachedFontSize = cache.get(text)?.[maxLines];
 		if (cachedFontSize) {
 			if (cachedFontSize !== initialFontSize) {
-				console.log("cache incorrect", text, cachedFontSize, initialFontSize);
+				// console.log("cache incorrect", text, cachedFontSize, initialFontSize);
 				span.style.fontSize = cachedFontSize;
 			}
 
 			return;
 		}
 
-		console.log("cache miss", text, maxLines, cache.get(text));
+		// console.log("cache miss", text, maxLines, cache.get(text));
 
 		const rawLineHeight = computedStyle.lineHeight;
 		let lineHeight = 0.0;

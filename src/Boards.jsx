@@ -1,42 +1,17 @@
 import { useMemo } from "preact/hooks";
 import { Board } from "./Board.jsx";
 import { memo } from "./memo.js";
-import { gridSize } from "./model.js";
+import { generateBoards } from "./model.js";
 
 /** @type {import('preact').FunctionComponent<{ settings: Settings }>} */
 export const Boards = memo(({ settings }) => {
-	const arr = Array.from({ length: settings.count }, (_, i) => i);
+	/** @type {Boards} */
+	const boardData = useMemo(() => generateBoards(settings), [settings]);
 
-	/** @type {string[][]} */
-	const boardData = useMemo(() => {
-		const size = gridSize(settings.grid);
-		const usedIndices = new Set();
-		const boards = [];
-		for (let i = 0; i < settings.count; i++) {
-			const board = [];
-			for (let j = 0; j < size; j++) {
-				let index;
-				do {
-					index = Math.floor(Math.random() * settings.entries.length);
-				} while (usedIndices.has(index));
-				usedIndices.add(index);
-				board.push(settings.entries[index]);
-			}
+	const boardJsx = [];
+	for (let board of boardData.boards) {
+		boardJsx.push(<Board key={board.hash} settings={settings} board={board} />);
+	}
 
-			usedIndices.clear();
-			boards.push(board);
-		}
-
-		return boards;
-	}, [settings]);
-
-	return (
-		<div class="boards">
-			{arr.map((i) => {
-				return (
-					<Board key={i} settings={{ ...settings, entries: boardData[i] }} />
-				);
-			})}
-		</div>
-	);
+	return <div class="boards">{boardJsx}</div>;
 });

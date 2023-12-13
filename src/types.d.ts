@@ -16,4 +16,17 @@ declare global {
 	}
 
 	type SettingsSignals = DeepSignal<Settings>;
+
+	interface Boards {
+		metadata: {
+			duplicates: Record<string, number>;
+		};
+		boards: Board[];
+	}
+
+	interface Board {
+		hash: string;
+		entries: string[];
+		freeSpaceIndex: number;
+	}
 }
