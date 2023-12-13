@@ -1,4 +1,31 @@
+import { createMulberry32 } from "./mulberry32";
 import { useResizeText } from "./useResizeText";
+
+const emojis = [
+	"🎄",
+	"🌲",
+	"🎉",
+	"🥳",
+	"🎈",
+	"🎊",
+	"🎁",
+	"🍾",
+	"🌟",
+	"👼",
+	"❄️",
+	"☃️",
+	"⛄️",
+	"🧣",
+	"🎿",
+	"🛷",
+	"🌨️",
+	"⛷️",
+	"⛸️",
+	"🔔",
+	"🎆",
+	"🪵",
+	"🦌",
+];
 
 /** @param {{ settings: Settings; board: Board; }} props */
 export function Board({ settings, board }) {
@@ -15,9 +42,14 @@ export function Board({ settings, board }) {
 		throw new Error(`Unknown grid type: ${settings.grid}`);
 	}
 
+	const rng = createMulberry32(parseInt(board.hash, 16));
+	const randomEmoji = () => emojis[Math.floor(rng.next() * emojis.length)];
+
 	return (
 		<div class="board">
-			<h2 class="board-title">{settings.title}</h2>
+			<h2 class="board-title">
+				{randomEmoji()} {settings.title} {randomEmoji()}
+			</h2>
 			<p class="board-desc">{settings.description}</p>
 			<div class="grid-wrapper">{gridComponent}</div>
 			<div class="board-footer">
