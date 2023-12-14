@@ -1,7 +1,7 @@
 import MurmurHash3 from "imurmurhash";
 import { deepSignal } from "deepsignal";
 import defaultImageUrl from "./assets/christmas-frame-card.jpg";
-import entries from "./entries.json";
+import entries from "./assets/entries.json";
 
 /** @type {SettingsSignals} */
 export const settings = deepSignal({

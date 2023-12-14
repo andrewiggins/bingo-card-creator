@@ -1,4 +1,4 @@
-import { useResizeText } from "./useResizeText";
+import { useResizeText } from "../utils/useResizeText";
 
 /** @param {{ settings: Settings; board: Board; }} props */
 export function Board({ settings, board }) {

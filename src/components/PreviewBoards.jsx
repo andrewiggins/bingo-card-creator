@@ -1,7 +1,7 @@
 import { useComputed } from "@preact/signals";
 import { useState } from "preact/hooks";
-import { settings, unsignalSettings } from "./model";
-import { createSplitMix32 } from "./rng";
+import { settings, unsignalSettings } from "../model";
+import { createSplitMix32 } from "../utils/rng";
 import { Boards } from "./Boards";
 
 const newSeed = () => Math.random() * 2 ** 32;

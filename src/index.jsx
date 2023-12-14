@@ -1,11 +1,10 @@
 import { render } from "preact";
-import { untracked } from "@preact/signals";
-import "./index.css";
-import { Settings } from "./Settings.jsx";
+import "./styles/index.css";
+import { Settings } from "./components/Settings.jsx";
 import { settings, unsignalSettings } from "./model.js";
-import { useCallback, useMemo, useState } from "preact/hooks";
-import { Boards } from "./Boards.jsx";
-import { PreviewBoards } from "./PreviewBoards";
+import { useCallback, useState } from "preact/hooks";
+import { Boards } from "./components/Boards.jsx";
+import { PreviewBoards } from "./components/PreviewBoards";
 
 const initialCommittedSettings = unsignalSettings(settings);
 

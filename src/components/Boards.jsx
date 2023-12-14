@@ -1,7 +1,7 @@
 import { useMemo } from "preact/hooks";
 import { Board } from "./Board.jsx";
-import { memo } from "./memo.js";
-import { generateBoards } from "./model.js";
+import { memo } from "../utils/memo.js";
+import { generateBoards } from "../model.js";
 
 /** @type {import('preact').FunctionComponent<{ settings: Settings, rng?: () => number }>} */
 export const Boards = memo(function Boards({ settings, rng }) {
