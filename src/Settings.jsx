@@ -8,11 +8,21 @@ export function Settings({ settings, onGenerate }) {
 	return (
 		<div class="settings-form">
 			<TextField name="title" label="Title" signal={settings.$title} />
+			<TextField
+				name="description"
+				label="Description"
+				signal={settings.$description}
+			/>
 			<Choice name="grid" label="Grid" choices={gridChoices} />
 			<NumberField
 				name="count"
 				label="Number of boards"
 				signal={settings.$count}
+			/>
+			<TextField
+				name="backgroundImageURL"
+				label="Background Image URL"
+				signal={settings.$backgroundImageUrl}
 			/>
 			<EntriesField name="entries" label="Entries" signal={settings.$entries} />
 			<div>

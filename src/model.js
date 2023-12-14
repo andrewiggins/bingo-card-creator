@@ -1,5 +1,6 @@
 import MurmurHash3 from "imurmurhash";
 import { deepSignal } from "deepsignal";
+import defaultImageUrl from "./assets/christmas-frame-card.jpg";
 import entries from "./entries.json";
 
 /** @type {SettingsSignals} */
@@ -14,6 +15,7 @@ export const settings = deepSignal({
 	},
 	humanBingo: true,
 	count: 100,
+	backgroundImageUrl: defaultImageUrl,
 });
 
 /** @type {(settings: SettingsSignals) => Settings} */

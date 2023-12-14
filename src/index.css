@@ -11,6 +11,12 @@
 
 body {
 	text-align: center;
+	/* font-family: 'Times New Roman', Times, serif; */
+	/* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
+	/* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
+	/* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+	/* font-family: Georgia, "Times New Roman", Times, serif; */
+	font-family: Helvetica, Arial, sans-serif;
 }
 
 label {
@@ -36,14 +42,18 @@ label {
 	overflow: hidden;
 }
 
+.boards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--board-gap);
+	width: calc(11in - var(--print-margin));
+}
+
 .board {
 	position: relative;
 	width: calc(50% - var(--board-gap));
 	font-size: 16px;
 	content-visibility: auto;
-	/* border: 30px solid; */
-	/* border-image-source: url(./assets/christmas-frame-card.jpg);
-	border-image-slice: 30; */
 }
 
 .board > * {
@@ -52,15 +62,16 @@ label {
 
 .board::before {
 	content: "";
-	background-image: url(./assets/christmas-frame-card.jpg);
-	background-size: cover;
-	background-position: top;
 	position: absolute;
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
 	opacity: 0.25;
+
+	background-image: var(--board-background-image);
+	background-size: cover;
+	background-position: top;
 }
 
 .board .cell {
@@ -68,11 +79,8 @@ label {
 	padding: 4px;
 }
 
-.boards {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--board-gap);
-	width: calc(11in - var(--print-margin));
+.board-title {
+	font-family: fantasy, sans-serif;
 }
 
 .board-footer {

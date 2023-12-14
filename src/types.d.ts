@@ -14,6 +14,7 @@ declare global {
 		};
 		humanBingo: boolean;
 		count: number;
+		backgroundImageUrl: string;
 	}
 
 	type SettingsSignals = DeepSignal<Settings>;
@@ -29,5 +30,10 @@ declare global {
 		hash: string;
 		entries: string[];
 		freeSpaceIndex: number;
+	}
+
+	declare module "*.jpg" {
+		const url: string;
+		export default url;
 	}
 }
