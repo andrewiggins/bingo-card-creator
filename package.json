@@ -13,7 +13,7 @@
     "test:report": "playwright show-report",
     "lint": "prettier --no-error-on-unmatched-pattern --check **/*.{js,jsx,ts,tsx,css,md,html,yml,yaml,json}",
     "lint:fix": "prettier --no-error-on-unmatched-pattern --write **/*.{js,jsx,ts,tsx,css,md,html,yml,yaml,json}",
-    "prepare": "husky install"
+    "prepare": "husky install && playwright install"
   },
   "author": "Andre Wiggins",
   "license": "MIT",

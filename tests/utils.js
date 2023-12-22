@@ -2,11 +2,12 @@ import config from "../playwright.config.js";
 
 export function getUrl() {
 	const serverConfig = config.webServer;
-	if (!serverConfig) {
+	if (Array.isArray(serverConfig)) {
+		if (serverConfig[0].url) return serverConfig[0].url;
 		throw new Error("Could not locate server url");
-	} else if (Array.isArray(serverConfig)) {
-		return serverConfig[0].url;
-	} else {
+	} else if (serverConfig?.url) {
 		return serverConfig.url;
+	} else {
+		throw new Error("Could not locate server url");
 	}
 }

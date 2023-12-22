@@ -21,7 +21,7 @@ export function PreviewBoards() {
 	const next = () => rng.next();
 
 	return (
-		<>
+		<div data-testid="preview-boards">
 			<h2>Preview</h2>
 			<p>
 				<button type="button" onClick={() => setSeed(newSeed())}>
@@ -29,6 +29,6 @@ export function PreviewBoards() {
 				</button>
 			</p>
 			<Boards settings={previewSettings.value} rng={next} />
-		</>
+		</div>
 	);
 }
