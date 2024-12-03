@@ -88,7 +88,7 @@ function EntriesField({ name, label, signal }) {
 	const onInput = useCallback(
 		(e) => {
 			if (!signal) return;
-			signal.value = e.currentTarget.value.split("\n").map((s) => s.trim());
+			signal.value = e.currentTarget.value.split("\n");
 		},
 		[signal],
 	);
