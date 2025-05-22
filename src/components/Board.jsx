@@ -63,7 +63,7 @@ function TwentyFiveGrid({ board, isHumanBingo }) {
 
 /** @param {{ entry: string; isFreeSpace: boolean; isHumanBingo: boolean }} props */
 function Cell({ entry, isFreeSpace, isHumanBingo }) {
-	const [ref, fontSize] = useResizeText(entry, 3);
+	const [ref, fontSize] = useResizeText(entry, isHumanBingo ? 3 : 5);
 
 	return (
 		<td class={`cell ${isFreeSpace ? "free-space" : ""}`}>

@@ -16,6 +16,8 @@ export function useResizeText(text, maxLines) {
 		if (!ref.current) return;
 		const span = ref.current;
 
+		// TODO: Batch writes if possible
+
 		const computedStyle = window.getComputedStyle(span);
 		const initialFontSize = computedStyle.fontSize;
 		let cachedFontSize = cache.get(text)?.[maxLines];
