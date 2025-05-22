@@ -8,8 +8,10 @@
     "build": "vite build",
     "serve": "vite preview",
     "start": "vite",
-    "lint": "prettier --no-error-on-unmatched-pattern --check **/*.{js,jsx,ts,tsx,css,md,html,yml,yaml,json}",
-    "lint:fix": "prettier --no-error-on-unmatched-pattern --write **/*.{js,jsx,ts,tsx,css,md,html,yml,yaml,json}",
+    "lint": "npm run tsc && npm run check-format",
+    "check-format": "prettier --no-error-on-unmatched-pattern --check **/*.{js,jsx,ts,tsx,css,md,html,yml,yaml,json}",
+    "format": "prettier --no-error-on-unmatched-pattern --write **/*.{js,jsx,ts,tsx,css,md,html,yml,yaml,json}",
+    "tsc": "tsc -p jsconfig.json --noEmit",
     "prepare": "husky install",
     "nano-staged": "nano-staged"
   },
@@ -28,9 +30,12 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
+    "@types/babel__core": "^7.20.5",
+    "@types/imurmurhash": "^0.1.4",
     "husky": "^9.1.7",
     "nano-staged": "^0.8.0",
     "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5"
   },
   "volta": {
