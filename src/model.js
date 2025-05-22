@@ -10,9 +10,7 @@ export const settings = deepSignal({
 		"Find someone who matches each description. Write their name in the box (or otherwise mark the box).",
 	entries: entries,
 	grid: "5x5",
-	freeSpace: {
-		entry: "FREE SPACE",
-	},
+	freeSpaceText: "FREE SPACE",
 	humanBingo: true,
 	count: 100,
 	backgroundImageUrl: defaultImageUrl,
@@ -38,14 +36,15 @@ function generateBoard(settings, rng = defaultRng) {
 	/** @type {Set<number>} */
 	const usedIndices = new Set();
 	const size = getGridSize(settings.grid);
-	const freeSpaceIndex = settings.freeSpace ? Math.floor(size / 2) : -1;
+	const freeSpaceIndex =
+		settings.freeSpaceText !== "" ? Math.floor(size / 2) : -1;
 
 	/** @type {string[]} */
 	const entries = [];
 
 	for (let j = 0; j < size; j++) {
 		if (freeSpaceIndex === j) {
-			entries.push(settings.freeSpace?.entry ?? "");
+			entries.push(settings.freeSpaceText);
 			continue;
 		}
 

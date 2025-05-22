@@ -13,6 +13,11 @@ export function Settings({ settings, onGenerate }) {
 				label="Description"
 				signal={settings.$description}
 			/>
+			<TextField
+				name="free-space-text"
+				label="Free Space text"
+				signal={settings.$freeSpaceText}
+			/>
 			<Choice name="grid" label="Grid" choices={gridChoices} />
 			<NumberField
 				name="count"

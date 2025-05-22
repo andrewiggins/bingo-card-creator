@@ -9,9 +9,7 @@ declare global {
 		description: string;
 		entries: string[];
 		grid: "5x5" | "36-bingo";
-		freeSpace: null | {
-			entry: string;
-		};
+		freeSpaceText: string;
 		humanBingo: boolean;
 		count: number;
 		backgroundImageUrl: string;
