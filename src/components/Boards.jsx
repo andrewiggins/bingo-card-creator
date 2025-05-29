@@ -1,29 +1,36 @@
-import { useMemo, useErrorBoundary } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import { Board } from "./Board.jsx";
 import { memo } from "../utils/memo.js";
-import { generateBoards } from "../model.js";
+import { generateBoards, validateBoardSettings } from "../model.js";
 
 /** @type {import('preact').FunctionComponent<{ settings: Settings, rng?: () => number }>} */
 export const Boards = memo(function Boards({ settings, rng }) {
-	/** @type {{ boardData: Boards | undefined; error: string | undefined }} */
-	const { boardData, error } = useMemo(() => {
-		let error;
+	/** @type {Boards | undefined} */
+	const boardData = useMemo(() => {
 		let boardData;
 		try {
 			boardData = generateBoards(settings, rng);
-		} catch (err) {
-			if (err instanceof Error) {
-				error = err.message;
-			} else {
-				error = String(err);
-			}
-		}
+		} catch (err) {}
 
-		return { error, boardData };
+		return boardData;
 	}, [settings, rng]);
 
-	if (error) {
-		return <div class="error">Error generating boards: {error}</div>;
+	const { warnings, errors } = useMemo(
+		() => validateBoardSettings(settings),
+		[settings],
+	);
+
+	if (errors.length > 0) {
+		return (
+			<div class="error">
+				{warnings.map((warning, index) => (
+					<p key={index}>{warning}</p>
+				))}
+				{errors.map((error, index) => (
+					<p key={index}>{error}</p>
+				))}
+			</div>
+		);
 	}
 
 	if (!boardData) {
@@ -37,5 +44,16 @@ export const Boards = memo(function Boards({ settings, rng }) {
 		boardJsx.push(<Board key={board.hash} settings={settings} board={board} />);
 	}
 
-	return <div class="boards">{boardJsx}</div>;
+	return (
+		<>
+			{warnings.length > 0 && (
+				<div class="warning">
+					{warnings.map((warning, index) => (
+						<p key={index}>{warning}</p>
+					))}
+				</div>
+			)}
+			<div class="boards">{boardJsx}</div>
+		</>
+	);
 });

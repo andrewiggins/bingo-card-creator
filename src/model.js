@@ -39,16 +39,6 @@ function generateBoard(settings, rng = defaultRng) {
 	const freeSpaceIndex =
 		settings.freeSpaceText !== "" ? Math.floor(size / 2) : -1;
 
-	// Calculate how many unique entries we need
-	const entriesNeeded = freeSpaceIndex >= 0 ? size - 1 : size;
-
-	// Check if we have enough entries
-	if (settings.entries.length < entriesNeeded) {
-		throw new Error(
-			`Not enough entries: need ${entriesNeeded} entries, but only have ${settings.entries.length} entries.`,
-		);
-	}
-
 	/** @type {string[]} */
 	const entries = [];
 
@@ -73,14 +63,60 @@ function generateBoard(settings, rng = defaultRng) {
 	return { hash: boardHash.result().toString(16), entries, freeSpaceIndex };
 }
 
+/** @type {(settings: Settings) => { warnings: string[], errors: string[] }} */
+export function validateBoardSettings(settings) {
+	const size = getGridSize(settings.grid);
+	const freeSpaceIndex =
+		settings.freeSpaceText !== "" ? Math.floor(size / 2) : -1;
+
+	// Calculate how many unique entries we need
+	const entriesNeeded = freeSpaceIndex >= 0 ? size - 1 : size;
+
+	const warnings = [];
+	const errors = [];
+
+	// Find duplicate entries and add an error with the duplicates
+	const uniqueEntries = new Set(settings.entries);
+	if (settings.entries.length > uniqueEntries.size) {
+		const duplicates = new Set(
+			settings.entries.filter(
+				(entry, index, self) => self.indexOf(entry) !== index,
+			),
+		);
+		if (duplicates.size > 0) {
+			warnings.push(
+				`Duplicate entries found: ${Array.from(duplicates).join(", ")}. Please ensure all entries are unique.`,
+			);
+		}
+	}
+
+	if (uniqueEntries.size < entriesNeeded) {
+		errors.push(
+			`Not enough entries: need ${entriesNeeded} entries, but only have ${uniqueEntries.size} unique entries.`,
+		);
+	}
+
+	return { warnings, errors };
+}
+
 /** @type {(settings: Settings, rng?: () => number) => Boards} */
 export function generateBoards(settings, rng) {
+	const { errors } = validateBoardSettings(settings);
+	if (errors.length > 0) {
+		throw new AggregateError(errors);
+	}
+
 	/** @type {Record<string, number>} */
 	const duplicates = {};
 	/** @type {Set<string>} */
 	const boardIds = new Set();
 	/** @type {Board[]} */
 	const boards = [];
+
+	settings = {
+		...settings,
+		entries: Array.from(new Set(settings.entries)),
+	};
 
 	for (let i = 0; i < settings.count; i++) {
 		const board = generateBoard(settings, rng);
