@@ -3,26 +3,34 @@ import { Board } from "./Board.jsx";
 import { memo } from "../utils/memo.js";
 import { generateBoards } from "../model.js";
 
-/**
- * @param {{ children: preact.ComponentChildren }} props
- * @returns {preact.VNode<any> | null}
- */
-function BoardErrorBoundary({ children }) {
-	const [error] = useErrorBoundary();
-	return error ? (
-		<div class="error">Error generating board: {error.message}</div>
-	) : (
-		<>{children}</>
-	);
-}
-
 /** @type {import('preact').FunctionComponent<{ settings: Settings, rng?: () => number }>} */
-const ShowBoards = memo(function Boards({ settings, rng }) {
-	/** @type {Boards} */
-	const boardData = useMemo(
-		() => generateBoards(settings, rng),
-		[settings, rng],
-	);
+export const Boards = memo(function Boards({ settings, rng }) {
+	/** @type {{ boardData: Boards | undefined; error: string | undefined }} */
+	const { boardData, error } = useMemo(() => {
+		let error;
+		let boardData;
+		try {
+			boardData = generateBoards(settings, rng);
+		} catch (err) {
+			if (err instanceof Error) {
+				error = err.message;
+			} else {
+				error = String(err);
+			}
+		}
+
+		return { error, boardData };
+	}, [settings, rng]);
+
+	if (error) {
+		return <div class="error">Error generating boards: {error}</div>;
+	}
+
+	if (!boardData) {
+		return (
+			<div class="error">Error generating board: boardData is undefined</div>
+		);
+	}
 
 	const boardJsx = [];
 	for (let board of boardData.boards) {
@@ -30,12 +38,4 @@ const ShowBoards = memo(function Boards({ settings, rng }) {
 	}
 
 	return <div class="boards">{boardJsx}</div>;
-});
-
-export const Boards = memo(function BoardsWrapper({ settings, rng }) {
-	return (
-		<BoardErrorBoundary>
-			<ShowBoards settings={settings} rng={rng} />
-		</BoardErrorBoundary>
-	);
 });
