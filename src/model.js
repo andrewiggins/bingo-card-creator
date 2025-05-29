@@ -39,6 +39,16 @@ function generateBoard(settings, rng = defaultRng) {
 	const freeSpaceIndex =
 		settings.freeSpaceText !== "" ? Math.floor(size / 2) : -1;
 
+	// Calculate how many unique entries we need
+	const entriesNeeded = freeSpaceIndex >= 0 ? size - 1 : size;
+
+	// Check if we have enough entries
+	if (settings.entries.length < entriesNeeded) {
+		throw new Error(
+			`Not enough entries: need ${entriesNeeded} entries, but only have ${settings.entries.length} entries.`,
+		);
+	}
+
 	/** @type {string[]} */
 	const entries = [];
 
